@@ -6,13 +6,14 @@
 /*   By: jseidere <jseidere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 12:44:56 by jseidere          #+#    #+#             */
-/*   Updated: 2024/07/29 19:14:27 by jseidere         ###   ########.fr       */
+/*   Updated: 2024/07/30 17:50:32 by jseidere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <cstdlib>
 #include <sstream>
+#include <iomanip>
 
 class Contact
 {
@@ -40,6 +41,7 @@ public:
             std::cout << "Darkest secret: " << darkest_secret;
             std::getline(std::cin, darkest_secret);
             std::cout << std::endl;
+            //std::cin.clear();
             break;
         }    
     }
@@ -60,17 +62,40 @@ class Phonebook
 public: 
     void createContact(int i)
     {
+        i %= 2;
         contact[i].add_contact(i);
     return;
     }
     void findContact(int index)
     {
-            if(contact[index].index == index)
-                contact[index].giveInfos();
-            else
-                std::cout << "No contact found" << std::endl;
+        if(contact[index].index == index)
+            contact[index].giveInfos();
+        else
+            std::cout << "No contact found" << std::endl;
     return;
     }
- 
-    
+    void norm_contact(std::string str){
+        size_t len = str.length();
+        if(len > 9)
+            std::cout << std::right << std::setw(9) << str.substr(0, 8) << ".";
+        else
+            std::cout << std::right  << std::setw(10) << str;
+        std::cout << "|";
+    }
+    void displayContact(int index)
+    {
+        std::cout << std::right  << std::setw(10) << "Index" << "|";
+        std::cout << std::right  << std::setw(10) << "Firstname" << "|";
+        std::cout << std::right  << std::setw(10) << "Lastname" << "|";
+        std::cout << std::right  << std::setw(10) << "Nickname" << "|";
+        std::cout << std::endl;
+        for(int i = 0; i < index; i++)
+        {
+            std::cout << std::right  << std::setw(10) << contact[i].index << "|";
+            norm_contact(contact[i].first_name);
+            norm_contact(contact[i].last_name);
+            norm_contact(contact[i].nick_name);
+            std::cout << std::endl;
+        }
+    }
 };
