@@ -6,9 +6,12 @@
 /*   By: jseidere <jseidere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 15:21:50 by jseidere          #+#    #+#             */
-/*   Updated: 2024/08/02 15:11:07 by jseidere         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:11:25 by jseidere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef ZOMBIE_HPP
+# define ZOMBIE_HPP
 
 #include <iostream>
 
@@ -26,8 +29,7 @@ public:
     ~Zombie(){
         std::cout << "Killed Zombie: " << name << std::endl;
     }
-    void setName(std::string Name)
-    {
+    void setName(std::string Name){
         this->name = Name;
     }
 };
@@ -35,3 +37,4 @@ public:
     void randomChump (std::string name);
     Zombie* zombieHorde(int N, std::string name);
 
+#endif

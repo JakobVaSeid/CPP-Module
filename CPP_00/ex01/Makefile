@@ -1,5 +1,5 @@
 NAME = phonebook
-SOURCES = ex01.cpp functions.cpp
+SOURCES = main.cpp Contact.cpp PhoneBook.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 CC = c++
 CFLAGS = -Wall -Werror -Wextra -g -std=c++98

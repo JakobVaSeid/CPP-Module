@@ -1,5 +1,5 @@
-NAME = Weapon
-SOURCES = main.cpp Weapon.cpp HumanA.cpp HumanB.cpp
+NAME = Fixed
+SOURCES = main.cpp Fixed.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 CC = c++
 CFLAGS = -Wall -Werror -Wextra -g -std=c++98

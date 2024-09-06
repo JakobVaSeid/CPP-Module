@@ -1,9 +1,9 @@
-NAME = Weapon
-SOURCES = main.cpp Weapon.cpp HumanA.cpp HumanB.cpp
+NAME = megaphone
+SOURCES = megaphone.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 CC = c++
 CFLAGS = -Wall -Werror -Wextra -g -std=c++98
-AR = ar
+
 RM = rm
 
 all: $(NAME)
