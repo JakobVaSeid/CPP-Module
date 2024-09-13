@@ -50,7 +50,7 @@ void ClapTrap::beRepaired(unsigned int amount){
 }
 
 ClapTrap::ClapTrap(std::string Name){
-    std::cout << "Constructor with " << Name << " called" << std::endl;
+    std::cout << "ClapTrap-constructor with " << Name << " called" << std::endl;
     this->_name = Name;
     this->_hitPoints = 10;
     this->_engergyPoints = 10;
@@ -63,7 +63,7 @@ ClapTrap::ClapTrap(const ClapTrap &b){
 }
 
 ClapTrap::~ClapTrap(){
-    std::cout << "Destructor called!" << std::endl;
+    std::cout << "ClapTrap-destructor called!" << std::endl;
 }
 
 ClapTrap& ClapTrap::operator=(const ClapTrap& other){

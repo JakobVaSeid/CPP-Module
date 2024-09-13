@@ -1,8 +1,8 @@
-NAME = ClapTrap
-SOURCES = main.cpp ClapTrap.cpp
+NAME = Abstract
+SOURCES = main.cpp Animal.cpp Cat.cpp Dog.cpp Brain.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 CC = c++
-CFLAGS = -Wall -Werror -Wextra -std=c++98
+CFLAGS = -Wall -Werror -Wextra -g -std=c++98
 AR = ar
 RM = rm
 
