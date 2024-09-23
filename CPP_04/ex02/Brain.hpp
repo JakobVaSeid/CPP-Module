@@ -8,6 +8,7 @@ class Brain{
         std::string ideas[100];
     public:
         Brain();
+        Brain(std::string idea);
         Brain(const Brain &b);
         ~Brain();
         Brain& operator=(const Brain& other);

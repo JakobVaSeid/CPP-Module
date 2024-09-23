@@ -2,7 +2,7 @@
 
 Dog::Dog(){
     this->type = "Dog";
-    this->_brain = new Brain();
+    this->_brain = new Brain("Dogfood!");
     //std::cout << "Dog-constructor called!" << std::endl;
 };
 

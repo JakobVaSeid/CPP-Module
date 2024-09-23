@@ -29,6 +29,6 @@ void    Animal::setType(std::string Type){
     this->type = Type;
 }
 
-/* void Animal::makeSound() const{
+void Animal::makeSound() const{
     std::cout << "Kikerikiiiih, Moooooh, Töröööööö, what animal am I?" << std::endl;
-} */
+}

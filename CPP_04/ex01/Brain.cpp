@@ -2,7 +2,14 @@
 
 Brain::Brain(){
     //std::cout << "Brain-constructor called!" << std::endl;
+    for(int i = 0; i < 100; i++)
+        this->ideas[i] = "Default idea!";
 };
+
+Brain::Brain(std::string idea){
+    for(int i = 0; i < 100; i++)
+        this->ideas[i] = idea;
+}
 
 Brain::Brain(const Brain &b){
     std::cout << "Copy-constructor Brain!" << std::endl;

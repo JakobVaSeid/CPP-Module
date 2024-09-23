@@ -17,7 +17,6 @@ int main (void){
     // Machine.attack("Roby");
     // Robot.takeDamage(10);
     // Robot.beRepaired(10);
-
     ScavTrap newRobot("Newbie");
 
     ScavTrap copy(newRobot);

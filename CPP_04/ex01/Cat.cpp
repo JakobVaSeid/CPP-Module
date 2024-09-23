@@ -2,7 +2,7 @@
 
 Cat::Cat(){
     this->type = "Cat";
-    this->_brain = new Brain();
+    this->_brain = new Brain("Catfood!");
     //std::cout << "Cat-constructor called!" << std::endl;
 };
 
