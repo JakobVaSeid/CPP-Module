@@ -1,5 +1,5 @@
 NAME = Bureaucrat
-SOURCES = main.cpp Bureaucrat.cpp Form.cpp
+SOURCES = main.cpp Bureaucrat.cpp AForm.cpp PresidentialPardonForm.cpp ShrubberyCreationForm.cpp RobotomyRequestForm.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 CC = c++
 CFLAGS = -Wall -Werror -Wextra -g -std=c++98

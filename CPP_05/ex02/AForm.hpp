@@ -2,25 +2,26 @@
 
 #include "Bureaucrat.hpp"
 
-class Form {
+class AForm {
     private:
         const std::string   _name;
         bool                _signed;
         const int           _gradeReq;
         const int           _gradeExecute;
     public:
-        Form();
-        Form (std::string name, int gS, int gE);
-        Form(const Form &b);
-        Form& operator=(const Form& other);
-        ~Form();
+        AForm();
+        AForm (std::string name, int gS, int gE);
+        AForm(const AForm &b);
+        ~AForm ();
+        AForm& operator=(const AForm& other);
     
-        void beSigned(Bureaucrat other);
+        virtual void beSigned(Bureaucrat other);
 
         std::string get_name() const;
         bool get_signed() const;
         int get_gradeReq() const;
         int get_gradeExecute() const;
+        virtual void execute(Bureaucrat const& executor) const = 0;
 
         class GradeTooHighException : public std::exception {
             virtual const char* what() const throw();
@@ -28,6 +29,9 @@ class Form {
         class GradeTooLowException : public std::exception {
             virtual const char* what() const throw();
         };
+        class FormNotSigned : public std::exception {
+            virtual const char* what() const throw();
+        };
 };
 
-        std::ostream& operator<<(std::ostream& COUT, Form& form);
+        std::ostream& operator<<(std::ostream& COUT, AForm const& Aform);

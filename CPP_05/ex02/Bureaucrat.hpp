@@ -2,6 +2,9 @@
 
 #include <iostream>
 #include <exception>
+#include <fstream>
+
+class AForm;
 
 class Bureaucrat{
     private:
@@ -12,12 +15,14 @@ class Bureaucrat{
         Bureaucrat(std::string name, int grade);
         Bureaucrat(const Bureaucrat &b);
         Bureaucrat& operator=(const Bureaucrat& other);
-        ~Bureaucrat ();
+        ~Bureaucrat();
 
-        int getGrade();
-        std::string getName();
+        int getGrade() const;
+        std::string getName() const;
         void incrementGrade();
         void decrementGrade();
+        void signForm(AForm &form);
+        void executeForm(AForm const& form);
         class GradeTooHighException : public std::exception{
             virtual const char* what() const throw();
         };
