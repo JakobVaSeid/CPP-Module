@@ -1,8 +1,9 @@
 #include "Bureaucrat.hpp"
-#include "AForm.hpp"
+#include "Form.hpp"
 #include "PresidentialPardonForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include "ShrubberyCreationForm.hpp"
+#include "Intern.hpp"
 
 int main(void){
     {
@@ -10,35 +11,12 @@ int main(void){
             Bureaucrat A("Herbert", 149);
             Bureaucrat B("Anemarie", 5);
             Bureaucrat C("Gundula", 8);
-            //AForm F("Antrag", 6, 1);
-            ShrubberyCreationForm F("ShrubberyA");
-
-            std::cout << F << std::endl;
-
-            B.signForm(F);
-            B.executeForm(F);
-            A.executeForm(F);
-            C.signForm(F);
-        }
-        catch (std::exception &e) {
-            std::cout << "Exception: " << e.what() << std::endl;
-        }
-        std::cout << "---------------------------------" << std::endl;
-
-    }
-    {
-        try {
-            Bureaucrat A("Herbert", 149);
-            Bureaucrat B("Anemarie", 5);
-            Bureaucrat C("Gundula", 8);
-
-            PresidentialPardonForm P("PresidentialA");
-
-            std::cout << P << std::endl;
             
-            B.signForm(P);
-            B.executeForm(P);
-            A.executeForm(P);
+            Intern H;
+            
+            Form *F = H.makeForm("request", "RoboForm");
+
+            delete F;
         }
         catch (std::exception &e) {
             std::cout << "Exception: " << e.what() << std::endl;
@@ -46,18 +24,50 @@ int main(void){
         std::cout << "---------------------------------" << std::endl;
     }
     {
-        try {
+        try{
             Bureaucrat A("Herbert", 149);
             Bureaucrat B("Anemarie", 5);
             Bureaucrat C("Gundula", 8);
+            
+            Intern H;
+            
+            Form *F = H.makeForm("robotomy request", "RoboForm");
 
-            RobotomyRequestForm R("RobotomyA");
+            delete F;
+        }
+        catch (std::exception &e) {
+            std::cout << "Exception: " << e.what() << std::endl;
+        }
+        std::cout << "---------------------------------" << std::endl;
+    }
+    {
+        try{
+            Bureaucrat A("Herbert", 149);
+            Bureaucrat B("Anemarie", 5);
+            Bureaucrat C("Gundula", 8);
+            
+            Intern H;
+            
+            Form *F = H.makeForm("shrubbery creation", "RoboForm");
 
-            std::cout << R << std::endl;
+            delete F;
+        }
+        catch (std::exception &e) {
+            std::cout << "Exception: " << e.what() << std::endl;
+        }
+        std::cout << "---------------------------------" << std::endl;
+    }
+    {
+        try{
+            Bureaucrat A("Herbert", 149);
+            Bureaucrat B("Anemarie", 5);
+            Bureaucrat C("Gundula", 8);
+            
+            Intern H;
+            
+            Form *F = H.makeForm("presidental pardon", "RoboForm");
 
-            B.signForm(R);
-            B.executeForm(R);
-            A.executeForm(R);
+            delete F;
         }
         catch (std::exception &e) {
             std::cout << "Exception: " << e.what() << std::endl;
