@@ -1,4 +1,4 @@
-NAME = ScalarConverter
+NAME = convert
 SOURCES = main.cpp ScalarConverter.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 CC = c++
