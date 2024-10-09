@@ -5,7 +5,10 @@ AForm::AForm () : _signed (false), _gradeReq(0), _gradeExecute(0) {
 }
 
 AForm::AForm (std::string name, int gS, int gE) : _name(name), _signed (false), _gradeReq(gS), _gradeExecute(gE) {
-    
+    if(_gradeReq < 1 || _gradeExecute < 1)
+        throw GradeTooHighException();
+    else if(_gradeReq > 150 || _gradeExecute > 150)
+        throw GradeTooLowException();
 }
 
 AForm::AForm(const AForm &b) : _name(b.get_name()), _gradeReq(b.get_gradeReq()), _gradeExecute(b.get_gradeExecute()) {

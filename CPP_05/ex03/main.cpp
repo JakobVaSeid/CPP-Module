@@ -49,6 +49,7 @@ int main(void){
             Intern H;
             
             Form *F = H.makeForm("shrubbery creation", "RoboForm");
+            B.signForm(*F);
 
             delete F;
         }
@@ -66,6 +67,7 @@ int main(void){
             Intern H;
             
             Form *F = H.makeForm("presidental pardon", "RoboForm");
+            A.signForm(*F);
 
             delete F;
         }

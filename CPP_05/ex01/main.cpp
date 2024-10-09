@@ -7,7 +7,7 @@ int main(void){
             Bureaucrat A("Herbert", 149);
             Bureaucrat B("Anemarie", 5);
             Bureaucrat C("Gundula", 8);
-            Form F("Antrag I", 6, 1);
+            Form F("Antrag I", 0, 1);
             Form G("Antrag II", 6, 1);
 
             std::cout << F << std::endl;

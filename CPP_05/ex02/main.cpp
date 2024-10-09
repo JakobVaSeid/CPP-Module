@@ -56,6 +56,7 @@ int main(void){
             std::cout << R << std::endl;
 
             B.signForm(R);
+            B.signForm(R);
             B.executeForm(R);
             A.executeForm(R);
         }
