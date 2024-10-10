@@ -1,5 +1,5 @@
-NAME = convert
-SOURCES = main.cpp ScalarConverter.cpp
+NAME = Serializer
+SOURCES = main.cpp Serializer.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 CC = c++
 CFLAGS = -Wall -Werror -Wextra -std=c++98

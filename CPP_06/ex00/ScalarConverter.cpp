@@ -187,8 +187,8 @@ void convert_char(std::string value) {
     f = static_cast<float>(c);
     std::cout << "char: " << c << std::endl;
     std::cout << "int: " << i << std::endl;
-    std::cout << "float: " << f << "f" << std::endl;
-    std::cout << "double: " << d << std::endl;
+    std::cout << "float: " << f << ".0f" << std::endl;
+    std::cout << "double: " << d << ".0" << std::endl;
 }
 
 //convert form int to other types
@@ -206,7 +206,7 @@ void convert_int(std::string value) {
     std::cout << "char: " << c << std::endl;
     std::cout << "int: " << i << std::endl;
     std::cout << "float: " << f << ".0f" << std::endl;
-    std::cout << "double: " << d << std::endl;
+    std::cout << "double: " << d << ".0" << std::endl;
 }
 
 //convert form float to other types
@@ -227,7 +227,7 @@ void convert_float(std::string value) {
     else {
         std::cout << "int: " << i << std::endl;
         std::cout << "float: " << f << ".0f" << std::endl;
-        std::cout << "double: " << d << std::endl;
+        std::cout << "double: " << d << ".0" << std::endl;
     }
 }
 
@@ -248,7 +248,7 @@ void convert_double(std::string value) {
     else {
         std::cout << "int: " << i << std::endl;
         std::cout << "float: " << f << ".0f" << std::endl;
-        std::cout << "double: " << d << std::endl;
+        std::cout << "double: " << d << ".0" << std::endl;
     }
 }
 
