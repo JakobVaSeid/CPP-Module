@@ -1,8 +1,8 @@
-NAME = array
+NAME = easyfind
 SOURCES = main.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 CC = c++
-CFLAGS = -Wall -Werror -Wextra -std=c++98 -g
+CFLAGS = -Wall -Werror -Wextra -std=c++98
 AR = ar
 RM = rm
 

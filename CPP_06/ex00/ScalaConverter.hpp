@@ -5,6 +5,11 @@
 #include <string>
 #include <stdexcept>
 #include <cstdlib>
+#include <iomanip>
+#include <climits>
+#include <cerrno>
+#include <limits>
+
 
 #define CHAR 1
 #define INT 2
@@ -14,11 +19,11 @@
 
 class ScalarConverter {
     private:
-
-    public:
         ScalarConverter();
         ScalarConverter(ScalarConverter &b);
         ScalarConverter& operator=(const ScalarConverter& other);
         ~ScalarConverter();
+
+    public:
         static void convert(std::string value);
 };

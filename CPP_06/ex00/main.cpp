@@ -1,32 +1,16 @@
 #include "ScalaConverter.hpp"
 
-void convert_to_int(std::string value);
+//ceck input bigger int max or smaller int min
+
 
 int main (int argc, char **argv) {
 
-    if(argc != 2){
-        return (std::cout << "Error" << std::endl, 0);
-    } else
-    {
-        ScalarConverter A;
-
-        A.convert(argv[1]);
-
-        /* std::string valueA = "1";
-        std::string valueB = "A";
-        std::string valueC = "+inff";
-        std::string valueD = "-42";
-        std::string valueF = "A";
-
-
-        A.convert(valueA);
-        std::cout << "-------------------" << std::endl;
-        A.convert(valueB);
-        std::cout << "-------------------" << std::endl;
-        A.convert(valueC);
-        std::cout << "-------------------" << std::endl;
-        A.convert(valueD);
-        std::cout << "-------------------" << std::endl;
-        A.convert(valueF); */
+    try {
+        if(argc != 2){
+            return (std::cout << "Error: need one argument" << std::endl, 0);
+        } else
+            ScalarConverter::convert(argv[1]);
+    } catch (std::exception &e) {
+        std::cout << e.what() << std::endl;
     }
 }

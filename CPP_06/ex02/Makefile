@@ -1,8 +1,8 @@
-NAME = array
-SOURCES = main.cpp
+NAME = Base
+SOURCES = main.cpp Base.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 CC = c++
-CFLAGS = -Wall -Werror -Wextra -std=c++98 -g
+CFLAGS = -Wall -Werror -Wextra -std=c++98
 AR = ar
 RM = rm
 
