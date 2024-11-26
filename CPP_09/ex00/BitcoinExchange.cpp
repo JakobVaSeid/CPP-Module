@@ -73,10 +73,10 @@ bool check_date(std::string line) {
     date.day = line.substr(8, 2);
 
     if(date.year.length() != 4 || date.month.length() != 2 || date.day.length() != 2) {
-        throw std::runtime_error ("Error:\nWrong date format");
+        throw std::runtime_error ("Error: Wrong date format");
     }
     if(!check_day(date) || !check_month(date) || !check_year(date)) {
-        throw std::runtime_error ("Error:\nInvalid date");
+        throw std::runtime_error ("Error: Invalid date");
     }
     //std::cout << "Day: " << date.day << " Month: " << date.month << " Year: " << date.year << std::endl;
 
@@ -138,7 +138,6 @@ bool check_format2(std::string line) {
 
 
 bool check_value (long long value) {
-    std::cout << "Value: " << value << std::endl;
     if(value < 0 || value > 2147483647)
         return (false);
     return (true);
@@ -158,7 +157,7 @@ int safe_data (std::string filename, std::map<std::string, float> &dataMap) {
     std::ifstream file(filename.c_str());
     int flag = 0;
     if(!file) {
-        throw std::runtime_error ("Error:\nFile couldn't be opend");
+        throw std::runtime_error ("Error: File couldn't be opend");
     }
 
     std::string line;
@@ -175,36 +174,40 @@ int safe_data (std::string filename, std::map<std::string, float> &dataMap) {
             flag = 2;
             continue;
         }
-        if(flag == 1) {
-            if(!check_format1(line))
-                throw std::runtime_error ("Error:\nWrong format");
-            std::string date, number, stash;
-            std::stringstream ss(line);
-            std::getline(ss >> std::ws, date, ' ');
-            check_date(date);
-            std::getline(ss >> std::ws, stash, '|');
-            std::getline(ss >> std::ws, number);
+        try {
+            if(flag == 1) {
+                if(!check_format1(line))
+                    throw std::runtime_error ("Error: Wrong format!");
+                std::string date, number, stash;
+                std::stringstream ss(line);
+                std::getline(ss >> std::ws, date, ' ');
+                check_date(date);
+                std::getline(ss >> std::ws, stash, '|');
+                std::getline(ss >> std::ws, number);
 
-            float num = atof(number.c_str());
-            long long num1 = atol(number.c_str());
-            dataMap[date] = num;
-            if(!check_value(num1))
-                throw std::runtime_error ("Error:\nValue out of range");
+                float num = atof(number.c_str());
+                long long num1 = atol(number.c_str());
+                dataMap[date] = num;
+                if(!check_value(num1))
+                    throw std::runtime_error ("Error: Value out of range");
+            }
+            else if (flag == 2) {
+                if(!check_format2(line))
+                    throw std::runtime_error ("Error: Wrong format");
+                std::string date, number, stash;
+                std::stringstream ss(line);
+                std::getline(ss >> std::ws, date, ',');
+                check_date(date);
+                std::getline(ss >> std::ws, number);
+
+                float num = atof(number.c_str());
+                dataMap[date] = num;
+                if(!check_value(num))
+                    throw std::runtime_error ("Error: Value out of range");
+            }
         }
-        else if (flag == 2) {
-            std::cout << "Here" << std::endl;
-            if(!check_format2(line))
-                throw std::runtime_error ("Error:\nWrong format");
-            std::string date, number, stash;
-            std::stringstream ss(line);
-            std::getline(ss >> std::ws, date, ',');
-            check_date(date);
-            std::getline(ss >> std::ws, number);
-
-            float num = atof(number.c_str());
-            dataMap[date] = num;
-            if(!check_value(num))
-                throw std::runtime_error ("Error:\nValue out of range2");
+        catch (std::exception &e) {
+            std::cout << e.what() << std::endl;
         }
     }
     file.close();

@@ -21,27 +21,6 @@ int convert_strtoi(std::string format) {
     return (num);
 }
 
-/* void search_map(std::map<std::string, float> &map) {
-    std::ifstream file("data.csv");
-    if(!file) {
-        throw std::runtime_error ("Error:\nFile couldn't be opend");
-    }
-
-    std::string line;
-    while(std::getline(file, line)) {
-        if (line == "date,exchange_rate")
-            continue;
-        std::map<std::string, float>::iterator it = map.find(line.substr(0, 10));
-        if(it != map.end()) {
-            std::cout << "Result: " << calculate(line.substr(11, line.length()), it->second) << std::endl;
-            convert_date(line.substr(0, 10));
-        } else {
-            //std::cout << "Not found!" << std::endl;
-        }
-        
-    }
-    file.close();
-} */
 void search_map(std::map<std::string, float> &map1, std::map<std::string, float> &map2) {
     std::map<std::string, float>::iterator it1;
     for (it1 = map1.begin(); it1 != map1.end(); ++it1) {
@@ -57,8 +36,7 @@ void search_map(std::map<std::string, float> &map1, std::map<std::string, float>
     }
 }
 
-//check overflow input
-//check the first line of both files
+
 //check if try catch is implemented correctly
 
 int main (int argc, char **argv){
@@ -66,17 +44,17 @@ int main (int argc, char **argv){
     if(argc == 2) {
         std::map<std::string, float> dataMap;
         std::map<std::string, float> dataMap1;
-        try {
+        /* try { */
             if(safe_data(argv[1], dataMap))
                 return (1);
             if(safe_data("data.csv", dataMap1))
                 return (1);
             search_map(dataMap, dataMap1);
-        } catch (std::exception &e) {
+        /* } catch (std::exception &e) {
             std::cout << e.what() << std::endl;
-        }
+        } */
     }
     else
-        std::cerr << "Error:\nWrong amount of arguments" << std::endl;
+        std::cerr << "Error: Wrong amount of arguments" << std::endl;
     return (0);
 }
