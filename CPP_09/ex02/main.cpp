@@ -33,7 +33,6 @@ int jacobsthal(int n) {
 
 void Pmerge::divideInHalf(std::vector <int> &vec) {
     long half = vec.size() / 2;
-    std::cout << "Half: " << half << std::endl;
     for(int i = 0; i < half; i++) {
         first_half.push_back(vec[i]);
     }
@@ -65,7 +64,7 @@ void Pmerge::recSort() {
     unsigned long size = pairs.size();
     if(size > 1)
     {
-        for(unsigned long i = 0; i < size; i++) {
+        for(unsigned long i = 0; i < pairs.size(); i++) {
             std::cout << "Big i: " << i << std::endl;
             if(i == 0) {
                 firstSort(firstPair);
@@ -80,11 +79,13 @@ void Pmerge::recSort() {
             else {
                 secondSort(secondPair, i);
                 //lower_bound
-                //std::vector<int>::iterator it = pairs.lower_bound(secondPair[0][0]);
-
+                /* std::vector<std::vector<int> >::iterator it = std::lower_bound(pairs.begin(), pairs.end(), secondPair[0]);
+                std::cout << "It: " << *it[0] << std::endl; */
                 pairs.insert(pairs.begin() + i, secondPair[0]);
                 pairs.insert(pairs.begin() + i + 1, secondPair[1]);
-                pairs.erase(pairs.begin() + i + 2);
+                i++;
+                pairs.erase(pairs.begin() + i + 1);
+                secondPair.clear();
             }
             /* pairs.clear();
             pairs = tmp; */
@@ -93,9 +94,9 @@ void Pmerge::recSort() {
         std::cout << "--PAIRS-2--" << std::endl;
         std::cout << "Pairs size: " << pairs.size() << std::endl;
                 printVecVector(pairs);
-    if(pairs[1].size() == 1)
-        return ;
-    recSort();
+    /* if(pairs[31].size() == 1)
+        return ; */
+    //recSort();
 }
 
 
@@ -113,6 +114,10 @@ void Pmerge::run() {
         pairs.push_back(firstPair[1]);
         firstPair.clear();
     }
+    recSort();
+    std::cout << "****************3.Step****************" << std::endl;
+    recSort();
+    recSort();
     recSort();
 }
 //10er Pairs
