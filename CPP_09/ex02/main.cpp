@@ -94,9 +94,16 @@ void Pmerge::recSort() {
         std::cout << "--PAIRS-2--" << std::endl;
         std::cout << "Pairs size: " << pairs.size() << std::endl;
                 printVecVector(pairs);
-    /* if(pairs[31].size() == 1)
-        return ; */
-    //recSort();
+    unsigned long counter = 0;
+    for(unsigned long i = 0; i < pairs.size(); i++) {
+        if(pairs[i].size() == 1)
+            counter++;
+        std::cout << "Counter: " << counter << std::endl;
+        std::cout << "Size: " << pairs.size() << std::endl;
+        if(counter + 2 == pairs.size())
+            return;
+    }
+    recSort();
 }
 
 
@@ -114,11 +121,12 @@ void Pmerge::run() {
         pairs.push_back(firstPair[1]);
         firstPair.clear();
     }
-    recSort();
     std::cout << "****************3.Step****************" << std::endl;
     recSort();
-    recSort();
-    recSort();
+    //recSort();
+    //recSort();
+    //recSort();
+    //recSort();
 }
 //10er Pairs
 //Edge case test: ./PmergeMe 1 2 89 12 23 415 213 78 45 12 36 100 78 123 128 89 612 417 18 14
