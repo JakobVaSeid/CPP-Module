@@ -12,6 +12,7 @@ class Pmerge {
         std::vector<int> vec;
         std::vector <std::vector<int> > pairs;
         std::vector<int> impVec;
+        std::vector<unsigned long> sizeVec;
         int impInt;
         std::vector<int> first_half;
         std::vector<int> second_half;
@@ -26,6 +27,7 @@ class Pmerge {
         void createNewVec();
         void recPairs();
         void recSort();
+        void getPairSize();
         void divideInHalf(std::vector <int> &vec);
         void firstSort(std::vector<std::vector<int> > &tmp);
         void secondSort(std::vector<std::vector<int> > &tmp, unsigned long i);
