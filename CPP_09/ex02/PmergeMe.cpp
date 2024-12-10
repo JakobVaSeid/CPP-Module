@@ -59,10 +59,11 @@ void Pmerge::getPairSize () {
     sizeFirst = pairs[0].size();
     sizeLast = pairs[pairs.size() - 1].size();
     sizeVec.push_back(sizeFirst);
-    sizeVec.push_back(sizeLast - sizeFirst);
+    sizeVec.push_back(sizeLast);
 }
 
 void Pmerge::recPairs() {
+    printVecVector(pairs);
     if(pairs.size() == 1) {
         return;
     }
@@ -93,7 +94,7 @@ void Pmerge::recPairs() {
         impVec.clear();
     }
     getPairSize();
-    printVecVector(pairs);
+    
     std::cout << "SIZEVEC: ";
     printLongVector(sizeVec);
     recPairs();
@@ -146,39 +147,79 @@ bool isPowerOfTwo (unsigned long x) {
 }
 
 void Pmerge::recSort() {
+    //std::vector<int> tmpVec;
+    sizeVec.pop_back();
+    sizeVec.pop_back();
+    if(pairs.size() == 1) {
+        if(sizeVec.size() > 1 || sizeVec[sizeVec.size() - 1] != 0) {
+            for (unsigned long i = 0; i < sizeVec[sizeVec.size() - 1]; i++) {
+                impVec.insert(impVec.begin(), pairs[pairs.size() - 1].back());
+                //impVec.push_front(pairs[pairs.size() - 1].back());
+                pairs[pairs.size() - 1].pop_back();
+            }
+        }
+    }
+    /* if(pairs.size() == 1) {
+        std::cout << "Here" << std::endl;
+        firstSort(firstPair);
+        pairs.clear();
+        pairs.push_back(firstPair[0]);
+        pairs.push_back(firstPair[1]);
+        firstPair.clear();
+        printVecVector(pairs);
+    } */
+    pairs.insert(pairs.begin(), impVec);
+    impVec.clear();
+    printVecVector(pairs);
     if(pairs.size() > 1)
     {
-        /* sizeVec.pop_back();
-        sizeVec.pop_back();
         for(unsigned long i = 0; i < pairs.size(); i++) {
-            if(pairs[i].size() != sizeVec[sizeVec.size() - 1] - sizeVec[sizeVec.size() - 2]) {
-                for(unsigned long j = 0; j < sizeVec[sizeVec.size() - 1]; j++) {
-                        impVec.push_back(pairs[i].back());
+            std::cout << "Pairs size: " << pairs[i].size() << std::endl;
+            std::cout << "SizeVec[-2]: " << sizeVec[sizeVec.size() - 2] << std::endl;
+            std::cout << "SizeVec[-1]: " << sizeVec[sizeVec.size() - 1] << std::endl;
+            if(pairs[i].size() == sizeVec[sizeVec.size() - 2]) {
+                std::cout << "Here" << std::endl;
+                /* if(i == 0) {
+                    firstSort(firstPair);
+                    pairs.insert(pairs.begin(), firstPair[0]);
+                    pairs.insert(pairs.begin() + 1, firstPair[1]);
+                    pairs.erase(pairs.begin() + 2);
+                    firstPair.clear();
+                    i++;
+                }
+                else { */
+                    secondSort(secondPair, i);
+                    std::vector<std::vector<int> >::iterator it = std::lower_bound(pairs.begin(), pairs.end(), secondPair[0]);
+                    pairs.insert(it, secondPair[0]);
+                    pairs.insert(pairs.begin() + i + 1, secondPair[1]);
+                    i++;
+                    pairs.erase(pairs.begin() + i + 1);
+                    secondPair.clear();
+                //}
+            } else if (pairs[i].size() == sizeVec[sizeVec.size() - 1]) {
+                std::cout << "Here2" << std::endl;
+                std::cout << "SizeVec[-3]: " << sizeVec[sizeVec.size() - 3] << std::endl;
+                if(sizeVec.size() > 1 || sizeVec[sizeVec.size() - 3] != 0) {
+                    for (unsigned long j = 0; j < sizeVec[sizeVec.size() - 3]; j++) {
+                        impVec.insert(impVec.begin(), pairs[i].back());
+                        //impVec.push_front(pairs[pairs.size() - 1].back());
                         pairs[i].pop_back();
                     }
-                    sizeVec.pop_back();
-                    sizeVec.pop_back();
-                } 
-        } */
+                    printIntVector(impVec);
+                    pairs.insert(pairs.begin(), impVec);
+                    impVec.clear();
+                }
+                sizeVec.pop_back();
+            }
+        }
         printVecVector(pairs);
-        for(unsigned long i = 0; i < pairs.size(); i++) {
-            if(i == 0) {
-                firstSort(firstPair);
-                pairs.insert(pairs.begin(), firstPair[0]);
-                pairs.insert(pairs.begin() + 1, firstPair[1]);
-                pairs.erase(pairs.begin() + 2);
-                firstPair.clear();
-                i++;
-            }
-            else {
-                secondSort(secondPair, i);
-                std::vector<std::vector<int> >::iterator it = std::lower_bound(pairs.begin(), pairs.end(), secondPair[0]);
-                pairs.insert(it, secondPair[0]);
-                pairs.insert(pairs.begin() + i + 1, secondPair[1]);
-                i++;
-                pairs.erase(pairs.begin() + i + 1);
-                secondPair.clear();
-            }
+        /* std::cout << "IMPVEC: " << std::endl;
+        printIntVector(impVec);
+        std::cout << "......................................" << std::endl; */
+        for(unsigned long i = 0; i < impVec.size(); i++) {
+            pairs[pairs.size() - 1].push_back(impVec[i]);
+            impVec.pop_back();
+            impVec.erase(impVec.begin() + i);
         }
     }
     
@@ -196,9 +237,7 @@ void Pmerge::recSort() {
 void Pmerge::run() {
     std::cout << "****************1.Step****************" << std::endl;
     createNewVec();
-    std::cout << "Create pairs begin" << std::endl;
     printVecVector(pairs);
-    std::cout << "Create pairs end" << std::endl;
     recPairs();
     //printVecVector(pairs);
     std::cout << "****************2.Step****************" << std::endl;
@@ -211,21 +250,14 @@ void Pmerge::run() {
         pairs.back().pop_back();
         printIntVector(impVec);
     } */
-    std::cout << "Pairs size: " << pairs[0].size() << std::endl;
-    for (int i = 0; i < 6; i++) {
-            pairs[0].pop_back();
-        }
-    if(pairs.size() == 1) {
-        firstSort(firstPair);
-        pairs.clear();
-        pairs.push_back(firstPair[0]);
-        pairs.push_back(firstPair[1]);
-        firstPair.clear();
-    }
+    /* std::cout << "Pairs size: " << pairs[0].size() << std::endl;
+    std::cout << "SizeVec[END]: " << sizeVec[sizeVec.size() - 1] << std::endl; */
+    //in recSort auslagern
+    
     std::cout << "****************3.Step****************" << std::endl;
     recSort();
     recSort();
-    recSort();
+    // recSort();
     // recSort();
     // recSort();
 }
