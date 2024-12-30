@@ -184,11 +184,11 @@ bool Pmerge::checkIfSizeIsVecSize(unsigned long size) {
     return true;
 }
 
-/* std::vector<std::vector<int> > ::iterator findPosition(std::vector<std::vector<int> > &vec, std::vector<int> &impVec) {
+/*std::vector<std::vector<int> > ::iterator findPosition(std::vector<std::vector<int> > &vec, ) {
     std::vector<std::vector<int> >::iterator it = std::lower_bound(vec.begin(), vec.end(), impVec);
     return it;
-}
- */
+} */
+
 void Pmerge::recSort() {
     
     if(pairs.size() == 1) {
@@ -220,7 +220,6 @@ void Pmerge::recSort() {
             tmp.clear();
             }
             else {
-                std::cout << "Here2" << std::endl;
                 for(unsigned long i = 0; i < sizeVec[sizeVec.size() - 1]; i++) {
                     impVec.insert(impVec.begin(), pairs[pairs.size() - 1].back());
                     pairs[pairs.size() - 1].pop_back();
@@ -230,7 +229,6 @@ void Pmerge::recSort() {
                 std::cout << "SizeVec: " << sizeVec[sizeVec.size() - 2] << std::endl;
                 std::cout << "PairsSize: " << pairs[0].size() << std::endl;
                 if(pairs[0].size() / sizeVec[sizeVec.size() - 2] == 2) {
-                    std::cout << "Here3" << std::endl;
                     secondSort(secondPair, 0);
                     pairs.erase(pairs.begin());
                     std::vector<std::vector<int> >::iterator it = std::lower_bound(pairs.begin(), pairs.end(), secondPair[0]);
@@ -244,8 +242,6 @@ void Pmerge::recSort() {
     }
     if(pairs.size() > 1)
     {
-        if(!checkIfSizeIsVecSize(sizeVec[sizeVec.size() - 1]))
-            std::cout << "True" << std::endl;
         std::cout << "sizeVec: ";
         printLongVector(sizeVec);
                 printVecVector(pairs);
@@ -261,7 +257,7 @@ void Pmerge::recSort() {
                 printVecVector(secondPair);
                 secondSort(secondPair, i);
                 pairs.erase(pairs.begin() + i);
-                std::vector<std::vector<int> >::iterator it = std::lower_bound(pairs.begin(), pairs.end(), secondPair[0]);
+                std::vector<std::vector<int> >::iterator it = std::lower_bound(pairs.begin(), pairs.begin() + i, secondPair[0]);
                 pairs.insert(pairs.begin() + i, secondPair[1]);
                 pairs.insert(it, secondPair[0]);
                 i++;
@@ -277,6 +273,7 @@ void Pmerge::recSort() {
                     std::vector<std::vector<int> >::iterator it = std::lower_bound(pairs.begin(), pairs.end(), impVec);
                     pairs.insert(it, impVec);
                     impVec.clear();
+                    i--;
                 }
                 /* i++;
                 size++; */
