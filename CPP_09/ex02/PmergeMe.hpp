@@ -31,4 +31,5 @@ class Pmerge {
         void divideInHalf(std::vector <int> &vec);
         void firstSort(std::vector<std::vector<int> > &tmp);
         void secondSort(std::vector<std::vector<int> > &tmp, unsigned long i);
+        bool checkIfSizeIsVecSize(unsigned long size);
 };  
