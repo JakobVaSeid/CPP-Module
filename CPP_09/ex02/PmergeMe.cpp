@@ -76,7 +76,7 @@ void Pmerge::getPairSize () {
 void Pmerge::recPairs() {
     printVecVector(pairs);
     getPairSize();
-    if(pairs.size() == 1) {
+    if(pairs.size() == 2 || pairs.size() == 3) {
         return;
     }
     if(pairs.size() % 2 != 0) {
@@ -167,6 +167,16 @@ bool vecVecIntisSorted(std::vector<std::vector<int> > &vec) {
     return true;
 }
 
+bool isSorted(std::vector<std::vector<int> > &vec) {
+    for(unsigned long i = 0; i < vec.size() - 1; i++) {
+        if(vec[i][0] > vec[i + 1][0]) {
+            printIntVector(vec[i]);
+            return false;
+        }
+    }
+    return true;
+}
+
 /* bool checkIfSizeIsVecSize(std::vector<std::vector<int> > &vec, std::vector<unsigned long> &sizeVec) {
     for(unsigned long i = 0; i < vec.size(); i++) {
         if(vec[i].size() != sizeVec[sizeVec.size() - 1])
@@ -184,14 +194,33 @@ bool Pmerge::checkIfSizeIsVecSize(unsigned long size) {
     return true;
 }
 
+void preSort(std::vector<std::vector<int> > &vec) {
+    if(vec.size() == 3) {
+        if(vec[0][0] > vec[1][0]) {
+            std::swap(vec[0], vec[1]);
+        }
+        if(vec[1][0] > vec[2][0]) {
+            std::swap(vec[1], vec[2]);
+        }
+        if(vec[0][0] > vec[1][0]) {
+            std::swap(vec[0], vec[1]);
+        }
+    }
+    else if(vec.size() == 2) {
+        if(vec[0][0] > vec[1][0]) {
+            std::swap(vec[0], vec[1]);
+        }
+    }
+
+}
+
 /*std::vector<std::vector<int> > ::iterator findPosition(std::vector<std::vector<int> > &vec, ) {
     std::vector<std::vector<int> >::iterator it = std::lower_bound(vec.begin(), vec.end(), impVec);
     return it;
 } */
 
 void Pmerge::recSort() {
-    
-    if(pairs.size() == 1) {
+/*     if(pairs.size() == 1) {
         if(sizeVec.size() > 1 || sizeVec[sizeVec.size() - 1] != 0) {
             if(sizeVec[sizeVec.size() - 1] == sizeVec[sizeVec.size() - 2]) {
                 std::cout << "Here1" << std::endl;
@@ -204,11 +233,7 @@ void Pmerge::recSort() {
                         if(j == 0) {
                             tmp.insert(tmp.begin(), impVec);
                             impVec.clear();
-                        }
-                        /* else if(j == 1){
-                            tmp.insert(tmp.begin() + 1, impVec);
-                            impVec.clear();
-                        } */ else {
+                        } else {
                             std::vector<std::vector<int> >::iterator it = std::lower_bound(tmp.begin(), tmp.end(), impVec);
                             tmp.insert(it, impVec);
                             impVec.clear();
@@ -239,15 +264,20 @@ void Pmerge::recSort() {
             }
         }
         //return;
-    }
+    } */
     if(pairs.size() > 1)
     {
+        if(pairs.size() == 2 || pairs.size() == 3) {
+            if(!isSorted(pairs)) {
+                preSort(pairs);
+            }
+        }
         std::cout << "sizeVec: ";
         printLongVector(sizeVec);
                 printVecVector(pairs);
         unsigned long size = pairs.size();
         for(unsigned long i = 0; i <= size; i++) {
-               printVecVectorRed(pairs);
+               //printVecVectorRed(pairs);
             if(pairs[i].size() == sizeVec[sizeVec.size() - 2]) {
                 std::cout << "I: " << i << std::endl;
                 if(vecVecIntisSorted(pairs)) {
@@ -275,8 +305,6 @@ void Pmerge::recSort() {
                     impVec.clear();
                     i--;
                 }
-                /* i++;
-                size++; */
             }
         }
                 sizeVec.pop_back();
@@ -322,11 +350,18 @@ void Pmerge::run() {
     
     std::cout << "****************3.Step****************" << std::endl;
     std::cout << "SizeVec.size(): " << sizeVec.size() << std::endl;
-    sizeVec.pop_back();
-    sizeVec.pop_back();
+    //sizeVec.pop_back();
+    //sizeVec.pop_back();
     std::cout << "Level 1" << std::endl;
     recSort();
     printVecVector(pairs);
+    std::cout << "Pairs.size: " << pairs.size() << std::endl;
+    if(isSorted(pairs)) {
+        std::cout << "Sorted" << std::endl;
+    }
+    else {
+        std::cout << "Not sorted" << std::endl;
+    }
    /*  std::cout << "Level 2" << std::endl;
     recSort();
     std::cout << "Level 3" << std::endl;
