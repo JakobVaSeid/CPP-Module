@@ -1,7 +1,7 @@
 #include "PmergeMe.hpp"
 
 Pmerge::Pmerge() {
-  
+  impInt = -1;
 }
 
 void Pmerge::fillVector(char *argv) {
@@ -32,6 +32,22 @@ void printVecVector(std::vector<std::vector <int> > &vec) {
     std::cout << "______________________________________________" << std::endl;
 }
 
+void printIntVectorPurple(std::vector<int> &vec) {
+    for(unsigned long i = 0; i < vec.size(); i++) {
+        std::cout << "\033[35m" << vec[i] << "\033[0m ";
+    }
+    std::cout << std::endl;
+    std::cout << "\033[35m----------------------------------------------\033[0m" << std::endl;
+}
+
+void printIntVectorBlue(std::vector<int> &vec) {
+    for(unsigned long i = 0; i < vec.size(); i++) {
+        std::cout << "\033[34m" << vec[i] << "\033[0m ";
+    }
+    std::cout << std::endl;
+    std::cout << "\033[34m----------------------------------------------\033[0m" << std::endl;
+}
+
 void printVecVectorRed(std::vector<std::vector <int> > &vec) {
     for(unsigned long i = 0; i < vec.size(); i++) {
         for(unsigned long j = 0; j < vec[i].size(); j++) {
@@ -39,6 +55,17 @@ void printVecVectorRed(std::vector<std::vector <int> > &vec) {
         }
         std::cout << std::endl;
         std::cout << "\033[31m----------------------------------------------\033[0m" << std::endl;
+    }
+    std::cout << "______________________________________________" << std::endl;
+}
+
+void printVecVectorBlue(std::vector<std::vector <int> > &vec) {
+    for(unsigned long i = 0; i < vec.size(); i++) {
+        for(unsigned long j = 0; j < vec[i].size(); j++) {
+            std::cout << "\033[34m" << vec[i][j] << "\033[0m ";
+        }
+        std::cout << std::endl;
+        std::cout << "\033[34m----------------------------------------------\033[0m" << std::endl;
     }
     std::cout << "______________________________________________" << std::endl;
 }
@@ -72,7 +99,7 @@ void Pmerge::getPairSize () {
     sizeVec.push_back(sizeFirst);
     sizeVec.push_back(sizeLast);
 }
-
+// bigger vec.size() front is 0 else 1
 void Pmerge::recPairs() {
     printVecVector(pairs);
     getPairSize();
@@ -85,6 +112,13 @@ void Pmerge::recPairs() {
     }
     for(unsigned long i = 0; i < pairs.size(); i+=2) {
         if(pairs[i][0] > pairs[i + 1][0]) {
+            //std::cout << "Front" << std::endl;
+            //printIntVectorPurple(pairs[i]);
+            //printIntVectorBlue(pairs[i + 1]);
+            if(pairs[i].size() < pairs[i + 1].size()) {
+                indexHistory.push_back(0);
+                //cutLen.push_back(pairs[i].size());
+            }
             pairs[i].insert(pairs[i].end(), pairs[i + 1].begin(), pairs[i + 1].end());
             pairs[i + 1].clear();
             if(pairs[i + 1].empty()) {
@@ -93,6 +127,13 @@ void Pmerge::recPairs() {
             }
         }
         else if(pairs[i + 1][0] > pairs[i][0]) {
+            //std::cout << "Back" << std::endl;
+            //printIntVectorBlue(pairs[i]);
+            //printIntVectorPurple(pairs[i + 1]);
+            if(pairs[i].size() < pairs[i + 1].size()) {
+                indexHistory.push_back(1);
+                cutLen.push_back(pairs[i].size());
+            }
             pairs[i + 1].insert(pairs[i + 1].end(), pairs[i].begin(), pairs[i].end());
             pairs[i].clear();
             if(pairs[i].empty()) {
@@ -102,12 +143,19 @@ void Pmerge::recPairs() {
         }
     }
     if(impVec.size() != 0) {
+        //printIntVectorPurple(impVec);
+        cutLen.push_back(impVec.size());
         pairs[pairs.size() - 1].insert(pairs[pairs.size() - 1].end(), impVec.begin(), impVec.end());
         impVec.clear();
+        indexHistory.push_back(1);
     }
     
     std::cout << "SIZEVEC: ";
     printLongVector(sizeVec);
+    std::cout << "INDEXHISTORY: ";
+    printLongVector(indexHistory);
+    std::cout << "CUTLEN: ";
+    printLongVector(cutLen);
     recPairs();
 } 
 
@@ -220,7 +268,7 @@ void preSort(std::vector<std::vector<int> > &vec) {
 } */
 
 void Pmerge::recSort() {
-/*     if(pairs.size() == 1) {
+    /* if(pairs.size() == 1) {
         if(sizeVec.size() > 1 || sizeVec[sizeVec.size() - 1] != 0) {
             if(sizeVec[sizeVec.size() - 1] == sizeVec[sizeVec.size() - 2]) {
                 std::cout << "Here1" << std::endl;
@@ -274,12 +322,13 @@ void Pmerge::recSort() {
         }
         std::cout << "sizeVec: ";
         printLongVector(sizeVec);
+        std::cout << "cutLen: ";
+        printLongVector(cutLen);
+        //printLongVector(indexHistory);
                 printVecVector(pairs);
-        unsigned long size = pairs.size();
-        for(unsigned long i = 0; i <= size; i++) {
-               //printVecVectorRed(pairs);
-            if(pairs[i].size() == sizeVec[sizeVec.size() - 2]) {
-                std::cout << "I: " << i << std::endl;
+        //unsigned long size = pairs.size();
+        for(unsigned long i = 0; i < pairs.size(); i++) { //maybe change back to i < size
+            if(!pairs.empty() && !sizeVec.empty() && pairs[i].size() == sizeVec[sizeVec.size() - 2]) {
                 if(vecVecIntisSorted(pairs)) {
                     std::cout << "Sorted" << std::endl;
                     return;
@@ -291,19 +340,35 @@ void Pmerge::recSort() {
                 pairs.insert(pairs.begin() + i, secondPair[1]);
                 pairs.insert(it, secondPair[0]);
                 i++;
-                size++;
+                //size++;
                 secondPair.clear();
 
             } else if (pairs[i].size() == sizeVec[sizeVec.size() - 1]) {
                 if(sizeVec.size() > 1 || sizeVec[sizeVec.size() - 3] != 0) {
-                    for (unsigned long j = 0; j < sizeVec[sizeVec.size() - 3]; j++) {
-                        impVec.insert(impVec.begin(), pairs[i].back());
-                        pairs[i].pop_back();
+                    if(!indexHistory.empty() && indexHistory[indexHistory.size() - 1] == 1) {
+                        std::cout << "Here Z.320" << std::endl;
+                        for (unsigned long j = 0; j < cutLen[cutLen.size() - 1]; j++) {
+                            impVec.insert(impVec.begin(), pairs[i].back());
+                            pairs[i].pop_back();
+                        }
+                        std::vector<std::vector<int> >::iterator it = std::lower_bound(pairs.begin(), pairs.end(), impVec);
+                        pairs.insert(it, impVec);
+                        impVec.clear();
+                        i--;
+                        indexHistory.pop_back();
+                        cutLen.pop_back();
+                    } else {
+                        std::cout << "Here Z.335" << std::endl;
+                        for (unsigned long j = 0; j < sizeVec[sizeVec.size() - 3]; j++) {
+                            impVec.insert(impVec.begin(), pairs[i].back());
+                            pairs[i].pop_back();
+                        }
+                        std::vector<std::vector<int> >::iterator it = std::lower_bound(pairs.begin(), pairs.end(), impVec);
+                        pairs.insert(it, impVec);
+                        impVec.clear();
+                        i--;
+                        indexHistory.pop_back();
                     }
-                    std::vector<std::vector<int> >::iterator it = std::lower_bound(pairs.begin(), pairs.end(), impVec);
-                    pairs.insert(it, impVec);
-                    impVec.clear();
-                    i--;
                 }
             }
         }
@@ -347,13 +412,19 @@ void Pmerge::run() {
     /* std::cout << "Pairs size: " << pairs[0].size() << std::endl;
     std::cout << "SizeVec[END]: " << sizeVec[sizeVec.size() - 1] << std::endl; */
     //in recSort auslagern
-    
+    //return;
     std::cout << "****************3.Step****************" << std::endl;
     std::cout << "SizeVec.size(): " << sizeVec.size() << std::endl;
     //sizeVec.pop_back();
     //sizeVec.pop_back();
     std::cout << "Level 1" << std::endl;
     recSort();
+    if(impInt != -1) {
+        impVec.push_back(impInt);
+        std::vector<std::vector<int> >::iterator it = std::lower_bound(pairs.begin(), pairs.end(), impVec);
+        pairs.insert(it, impVec);
+        impVec.clear();
+    }
     printVecVector(pairs);
     std::cout << "Pairs.size: " << pairs.size() << std::endl;
     if(isSorted(pairs)) {
@@ -370,3 +441,15 @@ void Pmerge::run() {
     recSort(); */
     // recSort();
 }
+
+//test case good: 38 4 80 50 51 86 36 5 70 54 69 2 52 17 27 77 84 79 83 21 67 10 96 46 89 41 39 29 71 37 3 60 94 74 18 24 55 15 63 44 76 66 32 40 42 58 6 9 68 47 
+//impVec: 76 66 40 32 58 42 9 6 68 47  | 58 42 9 6 68 47 | 68 47 
+//test case bad: 13 12 38 2 94 37 87 76 17 56 97 8 20 61 98 29 35 30 39 31 86 25 90 43 5 36 23 81 68 95 49 24 47 3 7 66 27 62 11 82 34 79 91 73 63 71 26 59 60 19
+//impVec: 
+
+
+//test case: 77 - 4 29 83 19 42 14 44 77 55 78 70 84 32 30 69 65 38 88
+//test case: 89 - 28 51 24 45 73 75 95 48 42 65 89 63 38 91 81 57 5 84
+
+
+//574 927 120 907 628 101 286 581 467 380 570 596 14 954 901 297 34 945 242 119 338 499 400 974 220 270 834 164 41 866 465 919 716 947 329 659 208 701 882 875 912 858 836 18 685 841 86 946 225 227 226 332 50 440 760 118 31 494

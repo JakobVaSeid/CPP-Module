@@ -19,6 +19,8 @@ class Pmerge {
         std::vector <std::vector <int> > firstPair;
         std::vector <std::vector <int> > secondPair;
         std::vector <std::vector <int> > tmp;
+        std::vector <unsigned long> indexHistory;
+        std::vector <unsigned long> cutLen;
 
     public:
         Pmerge ();
