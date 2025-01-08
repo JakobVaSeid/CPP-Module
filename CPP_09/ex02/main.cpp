@@ -13,5 +13,4 @@ int main (int argc, char **argv) {
         }
         prog.run();
     }
-    //printIntVector(prog.vec);
 }
