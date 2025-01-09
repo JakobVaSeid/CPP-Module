@@ -176,8 +176,9 @@ int safe_data (std::string filename, std::map<std::string, float> &dataMap) {
         }
         try {
             if(flag == 1) {
-                if(!check_format1(line))
-                    throw std::runtime_error ("Error: Wrong format!");
+                if(!check_format1(line)) {
+                    throw std::runtime_error ("Error: Bad input => " + line);
+                }
                 std::string date, number, stash;
                 std::stringstream ss(line);
                 std::getline(ss >> std::ws, date, ' ');
@@ -193,7 +194,7 @@ int safe_data (std::string filename, std::map<std::string, float> &dataMap) {
             }
             else if (flag == 2) {
                 if(!check_format2(line))
-                    throw std::runtime_error ("Error: Wrong format");
+                    throw std::runtime_error ("Error: Bad input");
                 std::string date, number, stash;
                 std::stringstream ss(line);
                 std::getline(ss >> std::ws, date, ',');

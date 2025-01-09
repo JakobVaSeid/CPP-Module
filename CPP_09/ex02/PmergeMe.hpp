@@ -6,6 +6,9 @@
 #include <cstdlib>
 #include <algorithm>
 #include <utility>
+#include <deque>
+#include <climits>
+#include <ctime>
 
 class Pmerge {
     public:
@@ -22,6 +25,19 @@ class Pmerge {
         std::vector <int> jaTaVec;
         std::vector <unsigned long> indexHistory;
         std::vector <unsigned long> cutLen;
+        ////////////////////////DEQUE////////////////////////
+        std::deque<int> deq;
+        std::deque <std::deque<int> > deqPairs;
+        std::deque <int> impDeque;
+        std::deque<unsigned long> sizeDeque;
+        std::deque <int>  firstDeque;
+        std::deque <int> secondDeque;
+        std::deque <std::deque <int> > firstPairDeque;
+        std::deque <std::deque <int> > secondPairDeque;
+        std::deque <std::deque <int> > tmpDeque;
+        std::deque <int> jaTaDeque;
+        std::deque <unsigned long> indexHistoryDeque;
+        std::deque <unsigned long> cutLenDeque;
 
     public:
         Pmerge ();
@@ -36,4 +52,17 @@ class Pmerge {
         void divideInHalf(std::vector <int> &vec);
         void secondSort(std::vector<std::vector<int> > &tmp, unsigned long i);
         void create_jacobsthal_vec(unsigned long size);
+        ////////////////////////DEQUE////////////////////////
+        void fillDeque(char *argv);
+        void createNewDeque();
+        void getDequePairSize();
+        void recDeqPairs();
+        void divideInHalf(std::deque <int> &deq);
+        void secondSort(std::deque<std::deque<int> > &tmp, unsigned long i);
+        void create_jacobsthal_deq(unsigned long size);
+        void recDeqSort();
+        void triple_sort_deq();
+        void runDeq();
+
+
 };  

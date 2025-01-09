@@ -50,7 +50,7 @@ int main (int argc, char **argv){
             if(safe_data("data.csv", dataMap1))
                 return (1);
             search_map(dataMap, dataMap1);
-        /* } catch (std::exception &e) {
+        /* } catch (std::exception &e) {    
             std::cout << e.what() << std::endl;
         } */
     }
