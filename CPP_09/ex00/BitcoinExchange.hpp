@@ -21,5 +21,6 @@ bool check_day(Date &date);
 bool check_month(Date &date);
 bool check_year(Date &date);
 bool check_date(std::string line);
-bool check_value (long long value);
+void check_value (long long value);
 int safe_data (std::string filename, std::map<std::string, float> &dataMap);
+void search_map(std::string date, float num, std::map<std::string, float> &map);

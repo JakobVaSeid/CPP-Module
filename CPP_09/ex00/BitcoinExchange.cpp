@@ -87,6 +87,8 @@ bool check_date(std::string line) {
 bool valid_num(std::string num) {
     int dot = 0;
     for (size_t i = 0; i < num.length(); i++) {
+        if(num[i] == '-')
+            continue;
         if(num[i] == '.') {
             dot++;
             if(dot > 1)
@@ -137,10 +139,12 @@ bool check_format2(std::string line) {
 }
 
 
-bool check_value (long long value) {
-    if(value < 0 || value > 2147483647)
-        return (false);
-    return (true);
+void check_value (long long value) {
+    if(value > 2147483647)
+        throw std::runtime_error ("Error: too large a number");
+    else if (value < 0)
+        throw std::runtime_error ("Error: not a positive number");
+    //return (true);
 }
 
 int check_first_line(std::string line) {
@@ -188,9 +192,10 @@ int safe_data (std::string filename, std::map<std::string, float> &dataMap) {
 
                 float num = atof(number.c_str());
                 long long num1 = atol(number.c_str());
-                dataMap[date] = num;
-                if(!check_value(num1))
-                    throw std::runtime_error ("Error: Value out of range");
+                //dataMap[date] = num;
+                //std::cout << "num: " << num << " num1: " << num1 << std::endl;
+                check_value(num1);
+                search_map(date, num, dataMap);
             }
             else if (flag == 2) {
                 if(!check_format2(line))
@@ -203,8 +208,7 @@ int safe_data (std::string filename, std::map<std::string, float> &dataMap) {
 
                 float num = atof(number.c_str());
                 dataMap[date] = num;
-                if(!check_value(num))
-                    throw std::runtime_error ("Error: Value out of range");
+                check_value(num);
             }
         }
         catch (std::exception &e) {
