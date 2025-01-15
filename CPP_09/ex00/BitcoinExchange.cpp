@@ -76,7 +76,7 @@ bool check_date(std::string line) {
         throw std::runtime_error ("Error: Wrong date format");
     }
     if(!check_day(date) || !check_month(date) || !check_year(date)) {
-        throw std::runtime_error ("Error: Invalid date");
+        throw std::runtime_error ("Error: Invalid date " + date.day + "-" + date.month + "-" + date.year);
     }
     //std::cout << "Day: " << date.day << " Month: " << date.month << " Year: " << date.year << std::endl;
 
@@ -87,8 +87,10 @@ bool check_date(std::string line) {
 bool valid_num(std::string num) {
     int dot = 0;
     for (size_t i = 0; i < num.length(); i++) {
-        if(num[i] == '-')
+        if((num[i] == '-' && i == 0) || (num[i] == '+' && i == 0))
             continue;
+        if(num[0] == '-' && num[1] == '0')
+            return (false);
         if(num[i] == '.') {
             dot++;
             if(dot > 1)
@@ -139,7 +141,9 @@ bool check_format2(std::string line) {
 }
 
 
-void check_value (long long value) {
+void check_value (long long value, int flag) {
+    if(flag == 1 && value > 1000)
+        throw std::runtime_error ("Error: too large a number");
     if(value > 2147483647)
         throw std::runtime_error ("Error: too large a number");
     else if (value < 0)
@@ -160,15 +164,25 @@ int check_first_line(std::string line) {
 int safe_data (std::string filename, std::map<std::string, float> &dataMap) {
     std::ifstream file(filename.c_str());
     int flag = 0;
-    if(!file) {
-        throw std::runtime_error ("Error: File couldn't be opend");
+    try {
+        if(!file) {
+            throw std::runtime_error ("Error: File couldn't be opend");
+        }
     }
-
+    catch (std::exception &e) {
+        std::cout << e.what() << std::endl;
+        return (1);
+    }
     std::string line;
     std::getline(file, line);
     flag = check_first_line(line);
-    if(!flag)
-        throw std::runtime_error("Wrong format!");
+    try{
+        if(!flag)
+            throw std::runtime_error("Wrong format!");
+    }
+    catch (std::exception &e) {
+        std::cout << e.what() << std::endl;
+    }
     while(std::getline(file, line)) {
         if (line == "date | value") {
             flag = 1;
@@ -178,24 +192,32 @@ int safe_data (std::string filename, std::map<std::string, float> &dataMap) {
             flag = 2;
             continue;
         }
-        try {
             if(flag == 1) {
-                if(!check_format1(line)) {
-                    throw std::runtime_error ("Error: Bad input => " + line);
-                }
-                std::string date, number, stash;
-                std::stringstream ss(line);
-                std::getline(ss >> std::ws, date, ' ');
-                check_date(date);
-                std::getline(ss >> std::ws, stash, '|');
-                std::getline(ss >> std::ws, number);
+            try {
+                    if(!check_format1(line)) {
+                        throw std::runtime_error ("Error: Bad input => " + line);
+                    }
+                    std::string date, number, stash;
+                    std::stringstream ss(line);
+                    std::getline(ss >> std::ws, date, ' ');
+                    check_date(date);
+                    std::getline(ss >> std::ws, stash, '|');
+                    std::getline(ss >> std::ws, number);
 
-                float num = atof(number.c_str());
-                long long num1 = atol(number.c_str());
-                //dataMap[date] = num;
-                //std::cout << "num: " << num << " num1: " << num1 << std::endl;
-                check_value(num1);
-                search_map(date, num, dataMap);
+                    float num = atof(number.c_str());
+                    long long num1 = atol(number.c_str());
+                    if(num > 1000)
+                        throw std::runtime_error ("Error: too large a number");
+                    //dataMap[date] = num;
+                    //std::cout << "num: " << num << " num1: " << num1 << std::endl;
+                    check_value(num1, flag);
+                    /* if(num == 0)
+                        throw std::runtime_error ("Error: Not a valid number"); */
+                    search_map(date, num, dataMap);
+                }
+                catch (std::exception &e) {
+                    std::cout << e.what() << std::endl;
+                }
             }
             else if (flag == 2) {
                 if(!check_format2(line))
@@ -208,12 +230,9 @@ int safe_data (std::string filename, std::map<std::string, float> &dataMap) {
 
                 float num = atof(number.c_str());
                 dataMap[date] = num;
-                check_value(num);
+                check_value(num, flag);
+                // std::cout << date << " => " << num << std::endl;
             }
-        }
-        catch (std::exception &e) {
-            std::cout << e.what() << std::endl;
-        }
     }
     file.close();
     return (0);

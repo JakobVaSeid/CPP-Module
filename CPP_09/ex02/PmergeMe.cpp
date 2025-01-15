@@ -15,7 +15,6 @@ void printContainer(T &container) {
     for (typename T::iterator it = container.begin(); it != container.end(); ++it) {
         std::cout << "\033[32m" << *it << "\033[0m ";
     }
-    //std::cout << "\033[32m| \033[0m";
 }
 
 template <typename T>
@@ -357,7 +356,6 @@ void Pmerge::triple_sort(){
     }
 }
 
-
 void Pmerge::run() {
     if(vec.size() <= 3) {
         triple_sort();
@@ -576,7 +574,7 @@ void Pmerge::recDeqSort() {
             }
             
         }
-        for(unsigned long k = 0; k < jaTaDeque.size(); k++) { //maybe change back to i < size
+        for(unsigned long k = 0; k < jaTaDeque.size(); k++) {
             for(unsigned long i = jaTaDeque[k]; i < deqPairs.size(); i++) {
                 if(!deqPairs.empty() && !sizeDeque.empty() && deqPairs[i].size() == sizeDeque[sizeDeque.size() - 2]) {
                     if(deqDeqIntisSorted(deqPairs)) {
